@@ -69,7 +69,7 @@ POSTGRES_SETTINGS = {
 
 SQLITE_SETTINGS = {
     'ENGINE': 'django.db.backends.sqlite3',
-    'NAME': BASE_DIR / 'db.sqlite3',
+    'NAME': BASE_DIR / 'data_base/db.sqlite3',
 }
 
 DATABASES = {
