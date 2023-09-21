@@ -27,7 +27,8 @@ INSTALLED_APPS = [
     'djoser',
     'drf_yasg',
     'rest_framework.authtoken',
-    'news.apps.NewsConfig'
+    'news.apps.NewsConfig',
+    'places.apps.PlacesConfig'
 ]
 
 MIDDLEWARE = [
