@@ -1,3 +1,10 @@
-from django.shortcuts import render
+from rest_framework import viewsets
 
-# Create your views here.
+from api.serializers import PublicationSerializer
+from news.models import Publication
+
+
+class PublicationViewSet(viewsets.ModelViewSet):
+    queryset = Publication.objects.all()
+    serializer_class = PublicationSerializer
+    http_method_names = ['get', 'post', 'patch', 'delete']

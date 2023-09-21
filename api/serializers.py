@@ -1,11 +1,27 @@
+import base64
+
 from django.contrib.auth.hashers import make_password
 from django.core import validators
+from django.core.files.base import ContentFile
 from rest_framework import serializers
 
+from news.models import Publication
 from news_and_weather.settings import (MAX_LENGTH_USERNAME, MAX_LENGTH_EMAIL,
                                        MAX_LENGTH_FIRST_NAME,
                                        MAX_LENGTH_LAST_NAME)
 from users.models import User
+
+
+class Base64ImageField(serializers.ImageField):
+    """Сериалайзер используется для изображений."""
+
+    def to_internal_value(self, data):
+        if isinstance(data, str) and data.startswith('data:image'):
+            format, imgstr = data.split(';base64,')
+            ext = format.split('/')[-1]
+            data = ContentFile(base64.b64decode(imgstr), name='temp.' + ext)
+
+        return super().to_internal_value(data)
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -68,3 +84,21 @@ class UserCreateSerializer(serializers.ModelSerializer):
         if attrs.get('password'):
             attrs['password'] = make_password(attrs['password'])
         return super().validate(attrs)
+
+
+class PublicationSerializer(serializers.ModelSerializer):
+    main_image = Base64ImageField(required=True, allow_null=False)
+
+    # TODO поле не отображается обязательным в сваггере
+
+    class Meta:
+        model = Publication
+        fields = ('id', 'title', 'text', 'main_image', 'preview_image', 'text',
+                  'date_published', 'author')
+        read_only_fields = ('pub_date', 'author')
+
+    def create(self, validated_data):
+        user = self.context['request'].user
+        validated_data['author'] = user
+        publication = Publication.objects.create(**validated_data)
+        return publication
