@@ -4,7 +4,8 @@ from .models import Place
 
 
 class PlaceAdmin(ModelAdmin):
-    list_display = ['id', 'name', 'coordinates', 'rating']
+    list_display = ['id', 'name', 'lon', 'lat', 'rating']
+    list_editable = ['name', 'rating']
     geomap_field_longitude = 'id_lon'
     geomap_field_latitude = 'id_lat'
     geomap_height = '400px'
