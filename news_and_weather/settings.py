@@ -13,7 +13,10 @@ DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split()
 
+AUTH_USER_MODEL = 'users.User'
+
 INSTALLED_APPS = [
+    'users.apps.UsersConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -22,6 +25,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'djoser',
+    'drf_yasg',
     'rest_framework.authtoken',
     'news.apps.NewsConfig'
 ]
@@ -57,7 +61,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'news_and_weather.wsgi.application'
 
-
 POSTGRES_SETTINGS = {
     'ENGINE': 'django.db.backends.postgresql',
     'NAME': os.getenv('POSTGRES_DB', 'django'),
@@ -76,7 +79,6 @@ DATABASES = {
     'default':
         (POSTGRES_SETTINGS, SQLITE_SETTINGS)[os.getenv('DATABASE') == 'sqlite']
 }
-
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -101,13 +103,11 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -150,5 +150,9 @@ REST_FRAMEWORK = {
 
 DJOSER = {
     'LOGIN_FIELD': 'email',
-    'LOGOUT_ON_PASSWORD_CHANGE': True
+    'LOGOUT_ON_PASSWORD_CHANGE': True,
+    'SERIALIZERS': {
+        'user_create': 'api.serializers.UserCreateSerializer',
+        'current_user': 'api.serializers.UserSerializer',
+        'user': 'api.serializers.UserSerializer'}
 }
