@@ -23,8 +23,10 @@ class Command(BaseCommand):
                 lat = row['lat']
                 rating = row['rating']
 
-                place = Place(name=name, lon=lon, lat=lat, rating=rating)
-                places_to_create.append(place)
+                # Используем filter для проверки существования объекта
+                if not Place.objects.filter(name=name).exists():
+                    place = Place(name=name, lon=lon, lat=lat, rating=rating)
+                    places_to_create.append(place)
 
             Place.objects.bulk_create(places_to_create)
 
@@ -33,4 +35,3 @@ class Command(BaseCommand):
         except Exception as error:
             self.stderr.write(
                 self.style.ERROR(f'Ошибка импорта данных: {str(error)}'))
-

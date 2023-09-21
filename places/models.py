@@ -6,7 +6,8 @@ from news_and_weather.settings import MIN_RATING, MAX_RATING
 
 
 class Place(models.Model, GeoItem):
-    name = models.CharField(max_length=255, verbose_name='Название места')
+    name = models.CharField(max_length=255, verbose_name='Название места',
+                            unique=True)
     lon = models.FloatField(validators=[MinValueValidator(-180),
                                         MaxValueValidator(180)])
     lat = models.FloatField(validators=[MinValueValidator(-90),
