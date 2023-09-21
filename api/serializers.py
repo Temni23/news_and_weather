@@ -9,6 +9,7 @@ from news.models import Publication
 from news_and_weather.settings import (MAX_LENGTH_USERNAME, MAX_LENGTH_EMAIL,
                                        MAX_LENGTH_FIRST_NAME,
                                        MAX_LENGTH_LAST_NAME)
+from places.models import Place
 from users.models import User
 
 
@@ -102,3 +103,9 @@ class PublicationSerializer(serializers.ModelSerializer):
         validated_data['author'] = user
         publication = Publication.objects.create(**validated_data)
         return publication
+
+
+class PlaceSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = ['id', 'name', 'coordinates', 'rating']
+        model = Place

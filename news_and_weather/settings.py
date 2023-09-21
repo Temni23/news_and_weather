@@ -29,7 +29,7 @@ INSTALLED_APPS = [
     'django_summernote',
     'rest_framework.authtoken',
     'news.apps.NewsConfig',
-    'places.apps.PlacesConfig'
+    'places.apps.PlacesConfig',
 ]
 
 MIDDLEWARE = [
@@ -47,7 +47,8 @@ ROOT_URLCONF = 'news_and_weather.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
+        'DIRS': ['venv/lib/python3.9/'
+                 'site-packages/django_admin_geomap/templates']
         ,
         'APP_DIRS': True,
         'OPTIONS': {
@@ -118,14 +119,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #############################################################################
 
 STR_SYMBOLS_AMOUNT = 30
-
-# User model
-
-
 MAX_LENGTH_EMAIL = 254
 MAX_LENGTH_USERNAME = 150
 MAX_LENGTH_FIRST_NAME = 150
 MAX_LENGTH_LAST_NAME = 150
+MIN_RATING = 0
+MAX_RATING = 25
 
 #############################################################################
 #                            DRF settings
