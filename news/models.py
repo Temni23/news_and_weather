@@ -41,10 +41,8 @@ class Publication(models.Model):
         return None
 
     def save(self, *args, **kwargs):
-        if not self.preview_image:
-            preview_image_path = self.generate_preview_image()
-            if preview_image_path:
-                self.preview_image.name = preview_image_path
+        preview_image_path = self.generate_preview_image()
+        self.preview_image.name = preview_image_path
         super().save(*args, **kwargs)
 
     def __str__(self):

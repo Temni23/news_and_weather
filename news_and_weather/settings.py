@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'djoser',
     'drf_yasg',
+    'django_summernote',
     'rest_framework.authtoken',
     'news.apps.NewsConfig',
     'places.apps.PlacesConfig'
@@ -156,4 +157,15 @@ DJOSER = {
         'user_create': 'api.serializers.UserCreateSerializer',
         'current_user': 'api.serializers.UserSerializer',
         'user': 'api.serializers.UserSerializer'}
+}
+#############################################################################
+#                            Summernote settings
+#############################################################################
+
+SUMMERNOTE_CONFIG = {
+    'iframe': True,
+    'summernote': {
+        'width': '100%',
+        'height': '400px',
+    },
 }

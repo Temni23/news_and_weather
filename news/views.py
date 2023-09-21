@@ -8,3 +8,5 @@ class PublicationViewSet(viewsets.ModelViewSet):
     queryset = Publication.objects.all()
     serializer_class = PublicationSerializer
     http_method_names = ['get', 'post', 'patch', 'delete']
+    # TODO добавить доступ автору или админу, остальным только для чтения
+
