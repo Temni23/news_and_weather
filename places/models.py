@@ -33,3 +33,35 @@ class Place(models.Model, GeoItem):
     @property
     def geomap_latitude(self):
         return str(self.lat)
+
+
+class WeatherReport(models.Model):
+    place = models.ForeignKey(Place, on_delete=models.CASCADE,
+                              related_name='weather_reports', editable=False)
+    temperature = models.DecimalField(max_digits=5, decimal_places=2,
+                                      verbose_name='Температура (°C)',
+                                      editable=False)
+    humidity = models.DecimalField(max_digits=5, decimal_places=2,
+                                   verbose_name='Влажность (%)',
+                                   editable=False)
+    pressure = models.DecimalField(max_digits=5, decimal_places=2,
+                                   verbose_name='Атмосферное давление '
+                                                '(мм рт. ст.)', editable=False)
+    wind_direction = models.CharField(max_length=100,
+                                      verbose_name='Направление ветра',
+                                      editable=False)
+    wind_speed = models.DecimalField(max_digits=5, decimal_places=2,
+                                     verbose_name='Скорость ветра (м/с)',
+                                     editable=False)
+    report_time = models.DateTimeField(auto_now_add=True,
+                                       verbose_name='Время сводки',
+                                       editable=False)
+
+    # TODO цифры в константы
+    class Meta:
+        verbose_name = 'Сводка погоды'
+        verbose_name_plural = 'Сводки погоды'
+        ordering = ['-report_time']
+
+    def __str__(self):
+        return f'Сводка погоды в {self.place} ({self.report_time})'

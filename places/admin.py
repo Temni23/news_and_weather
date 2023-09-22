@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django_admin_geomap import ModelAdmin
-from .models import Place
+from .models import Place, WeatherReport
 
 
 class PlaceAdmin(ModelAdmin):
@@ -12,4 +12,11 @@ class PlaceAdmin(ModelAdmin):
     geomap_default_zoom = '1'
 
 
+class WeatherReportAdmin(admin.ModelAdmin):
+    list_display = ('id', 'place', 'temperature', 'humidity', 'pressure',
+                    'wind_direction', 'wind_speed', 'report_time')
+    search_fields = ('place', 'report_time', 'temperature')
+
+
 admin.site.register(Place, PlaceAdmin)
+admin.site.register(WeatherReport, WeatherReportAdmin)

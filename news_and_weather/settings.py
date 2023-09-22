@@ -115,18 +115,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #############################################################################
-#                            Model constants
-#############################################################################
-
-STR_SYMBOLS_AMOUNT = 30
-MAX_LENGTH_EMAIL = 254
-MAX_LENGTH_USERNAME = 150
-MAX_LENGTH_FIRST_NAME = 150
-MAX_LENGTH_LAST_NAME = 150
-MIN_RATING = 0
-MAX_RATING = 25
-
-#############################################################################
 #                            DRF settings
 #############################################################################
 
@@ -168,3 +156,15 @@ SUMMERNOTE_CONFIG = {
         'height': '400px',
     },
 }
+
+#############################################################################
+#                            Models constants
+#############################################################################
+
+STR_SYMBOLS_AMOUNT = 30
+MAX_LENGTH_EMAIL = 254
+MAX_LENGTH_USERNAME = 150
+MAX_LENGTH_FIRST_NAME = 150
+MAX_LENGTH_LAST_NAME = 150
+MIN_RATING = 0
+MAX_RATING = 25
