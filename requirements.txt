@@ -33,6 +33,7 @@ djoser==2.1.0
 drf-yasg==1.21.7
 et-xmlfile==1.1.0
 flake8==6.1.0
+gunicorn==21.2.0
 idna==3.4
 inflection==0.5.1
 itypes==1.2.0
@@ -73,3 +74,4 @@ urllib3==2.0.5
 vine==5.0.0
 wcwidth==0.2.6
 webencodings==0.5.1
+XlsxWriter==3.1.4

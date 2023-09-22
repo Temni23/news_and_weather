@@ -151,8 +151,6 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS':
         'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
-    # 'SEARCH_PARAM': 'name'
-    # Используем по умолчанию в запросе name вместо search
 }
 
 #############################################################################
@@ -185,9 +183,7 @@ SUMMERNOTE_CONFIG = {
 
 CELERY_BROKER_URL = 'redis://localhost:6379/0'
 CELERY_RESULT_BACKEND = 'django-db'
-# CELERY_ACCEPT_CONTENT = ['json']
-# CELERY_TASK_SERIALIZER = 'json'
-# CELERY_RESULT_SERIALIZER = 'json'
+
 #############################################################################
 #                            Models constants
 #############################################################################
@@ -205,3 +201,10 @@ CONSTANCE_CONFIG = {
     'MESSAGE': ('Добрый день! Вот список новостей за сегодня:',
                 'Настройка для письма'),
 }
+CONSTANCE_BACKEND = 'constance.backends.redisd.RedisBackend'
+CONSTANCE_REDIS_CONNECTION = 'redis://redis:6379/3'
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost',
+    'http://127.0.0.1',
+    'http://192.168.1.100',
+]
