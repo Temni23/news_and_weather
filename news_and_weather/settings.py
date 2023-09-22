@@ -1,5 +1,4 @@
 import os
-from datetime import timedelta
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -29,6 +28,7 @@ INSTALLED_APPS = [
     'djoser',
     'drf_yasg',
     'django_summernote',
+    'django_filters',
     'rest_framework.authtoken',
     'news.apps.NewsConfig',
     'places.apps.PlacesConfig',
@@ -53,8 +53,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': ['venv/lib/python3.9/'
-                 'site-packages/django_admin_geomap/templates']
-        ,
+                 'site-packages/django_admin_geomap/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -119,16 +118,14 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-
 
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 587
 
-EMAIL_HOST_USER = 'django-test23@yandex.ru'
-EMAIL_HOST_PASSWORD = 'hdgsezhljxqbwwfz'
-# TODO в переменные
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+
 EMAIL_USE_TLS = True
 
 DEFAULT_FROM_EMAIL = 'django-test23@yandex.ru'
@@ -192,6 +189,12 @@ MAX_LENGTH_FIRST_NAME = 150
 MAX_LENGTH_LAST_NAME = 150
 MIN_RATING = 0
 MAX_RATING = 25
+MAX_DIGITS = 8
+MAX_DECIMAL = 2
+
+#############################################################################
+#                            Constance settings
+#############################################################################
 
 CONSTANCE_CONFIG = {
     'SUBJECT': ('Ежедневные новости', 'Настройка для письма'),

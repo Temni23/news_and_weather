@@ -1,5 +1,5 @@
 """
-Здесь хранятся переменные для
+Переменны для эле тронных писем
 """
 import os
 from constance import config

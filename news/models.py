@@ -8,6 +8,7 @@ User = get_user_model()
 
 
 class Publication(models.Model):
+    """Модель для публикации новости."""
     title = models.CharField(verbose_name='Заголовок новости',
                              max_length=255,
                              help_text='Введите небольшой заголовок новости')
@@ -16,7 +17,7 @@ class Publication(models.Model):
                                    help_text='Добавьте изображение')
     preview_image = models.ImageField(upload_to='news/images/previews/',
                                       blank=True,
-                                      editable=False)  # Превью-изображение (недоступное для редактирования)
+                                      editable=False)
 
     text = models.TextField(verbose_name='Текст новости',
                             help_text='Введите текст новости')
@@ -32,7 +33,7 @@ class Publication(models.Model):
         if self.main_image:
             image = Image.open(self.main_image)
             image.thumbnail((200,
-                             200))  # Уменьшаем изображение до 200px по наименьшей стороне
+                             200))
             preview_image_path = os.path.join('media/news/images/previews/',
                                               os.path.basename(
                                                   self.main_image.name))
@@ -47,3 +48,22 @@ class Publication(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Comment(models.Model):
+    """Модель для комментария к новости."""
+    author = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='comments')
+    publication = models.ForeignKey(
+        Publication, on_delete=models.CASCADE, related_name='comments')
+    text = models.TextField()
+    pub_date = models.DateTimeField(
+        'Дата добавления', auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Комментарий'
+        verbose_name_plural = 'Комментарии'
+        ordering = ['pub_date']
+
+    def __str__(self):
+        return self.text
