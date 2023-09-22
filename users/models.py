@@ -6,7 +6,7 @@ from news_and_weather.settings import MAX_LENGTH_EMAIL, STR_SYMBOLS_AMOUNT
 
 class User(AbstractUser):
     """Модель пользователя для проекта."""
-    READER = 'reade'
+    READER = 'reader'
     WRITER = 'writer'
     ADMIN = 'admin'
 

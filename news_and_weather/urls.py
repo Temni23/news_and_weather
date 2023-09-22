@@ -21,7 +21,6 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
-                  path('admin/constance/', include('constance.urls')),
                   path('admin/', admin.site.urls),
                   path('api/', include('api.urls', )),
                   path('summernote/', include('django_summernote.urls')),

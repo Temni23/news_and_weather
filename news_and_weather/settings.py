@@ -18,6 +18,7 @@ AUTH_USER_MODEL = 'users.User'
 
 INSTALLED_APPS = [
     'users.apps.UsersConfig',
+    'constance',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -33,8 +34,7 @@ INSTALLED_APPS = [
     'places.apps.PlacesConfig',
     'django_celery_results',
     'django_celery_beat',
-    'constance',
-    'constance.backends.database',
+
 ]
 
 MIDDLEWARE = [
@@ -119,6 +119,23 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# SMTP-сервер и порт для отправки почты
+EMAIL_HOST = 'smtp.yandex.ru'  # Замените на адрес вашего SMTP-сервера
+EMAIL_PORT = 587  # Порт для отправки почты (обычно 587 для TLS)
+
+# Имя пользователя и пароль для SMTP-сервера (если требуется аутентификация)
+EMAIL_HOST_USER = 'django-test23@yandex.ru'
+EMAIL_HOST_PASSWORD = 'hdgsezhljxqbwwfz'  # Замените на ваш пароль
+
+# Указание TLS-шифрования (если требуется)
+EMAIL_USE_TLS = True
+
+# Указание адреса отправителя по умолчанию
+DEFAULT_FROM_EMAIL = 'django-test23@yandex.ru'
+
 #############################################################################
 #                            DRF settings
 #############################################################################
@@ -182,3 +199,9 @@ MAX_LENGTH_FIRST_NAME = 150
 MAX_LENGTH_LAST_NAME = 150
 MIN_RATING = 0
 MAX_RATING = 25
+
+CONSTANCE_CONFIG = {
+    'SUBJECT': ('Ежедневные новости', 'Настройка для письма'),
+    'MESSAGE': ('Добрый день! Вот список новостей за сегодня:',
+                'Настройка для письма'),
+}
