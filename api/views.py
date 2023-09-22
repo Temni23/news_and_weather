@@ -1,9 +1,13 @@
 import xlsxwriter
 from rest_framework import viewsets
 from django.http import HttpResponse
+from rest_framework.filters import SearchFilter
+from rest_framework.generics import get_object_or_404
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
+from api.permissions import IsAuthorStaffOrReadOnly
 from api.serializers import (PublicationSerializer, PlaceSerializer,
-                             WeatherReportSerializer)
+                             WeatherReportSerializer, CommentSerializer)
 from news.models import Publication
 from places.models import Place, WeatherReport
 
@@ -11,21 +15,43 @@ from datetime import datetime
 
 
 class PublicationViewSet(viewsets.ModelViewSet):
+    """Вьюст для публикаций."""
     queryset = Publication.objects.all()
     serializer_class = PublicationSerializer
     http_method_names = ['get', 'post', 'patch', 'delete']
-    # TODO добавить доступ автору или админу, остальным только для чтения
+    permission_classes = (IsAuthorStaffOrReadOnly,)
 
 
 class PlaceViewSet(viewsets.ReadOnlyModelViewSet):
+    """Вьюст для памятных мест."""
     queryset = Place.objects.all()
     serializer_class = PlaceSerializer
-    # TODO добавить фильтры по месту и времени
+    filter_backends = [SearchFilter]
+    search_fields = ['name']
 
 
 class WeatherReportViewSet(viewsets.ReadOnlyModelViewSet):
+    """Вьюст для сводок с погодой."""
     queryset = WeatherReport.objects.all()
     serializer_class = WeatherReportSerializer
+    filter_backends = [SearchFilter]
+    search_fields = ['report_time']
+
+
+class CommentViewSet(viewsets.ModelViewSet):
+    """Вьюст для комментариев."""
+    serializer_class = CommentSerializer
+    permission_classes = (IsAuthorStaffOrReadOnly, IsAuthenticatedOrReadOnly)
+
+    def perform_create(self, serializer):
+        id_comment = self.kwargs.get('publication_id')
+        review = get_object_or_404(Publication, pk=id_comment,)
+        serializer.save(review=review)
+
+    def get_queryset(self):
+        id_comment = self.kwargs.get('publication_id')
+        new_queryset = get_object_or_404(Publication, pk=id_comment,)
+        return new_queryset.comments.all()
 
 
 def download_weather_data(request):
@@ -60,5 +86,3 @@ def download_weather_data(request):
             worksheet.write(row, col + 3, data.place.name)
         workbook.close()
         return response
-
-
