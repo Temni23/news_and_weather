@@ -1,4 +1,4 @@
-#  News and wether
+#  News and weather
 
 ## О проекте
 Тестовое задание по заранее сформированному ТЗ
@@ -10,56 +10,86 @@
 ## Технологии
 Python 3.9, Django, Django REST framework, Docker, Celery, Constance, Pandas, Nginx
 
-## Запуск проекта на локальном компьютере c linux
-
+## Запуск проекта на локальном компьютере
+# Linux:
 клонировать проект, например так:
-git clone git@github.com:Temni23/foodgram-project-react.git
-Вместо пути git@github.com:Temni23/foodgram-project-react.git введите свой.
-frontend:
-cd frontend
-npm i
-rpm run dev
-
-backend:
-cd backend
-python -m venv venv
-
-# Linux/macOS:
 ```
-  source env/bin/activate
-  ```
-# windows:
-  ```
-  source venv/Scripts/activate
-  ```
+git clone git@github.com:Temni23/news_and_weather.git
+```
+создать и активировать виртуальное окружение
+```
+python -m venv venv
+```
 
+```
+source venv/bin/activate
+```
+
+затем в корне проекта создать файл .env с переменными перерчисленными в файле example.env
+
+После этого в консоли последовательно ввести команды или воспользоваться скриптом приведенными ниже
 ```
 pip install -r requirements.txt
+python3 manage.py makemigrations
+python3 manage.py migrate
+python3 manage.py collectstatic --no-input
+python3 manage.py import_places
 ```
-```
-python manage.py migrate
-```
-```
-python manage.py runserver
-```
+Перечисленные команды установят зависимости подготовят и применят миграции, соберут статику, добавят в базу предустановленные данные о примечательных местах из эксель файла и запустят сервер
+
 При успешном старте получим backend приложение на 127.0.0.1:8080
+
+Можно запустить все подготовленным скриптом
+
+```
+chmod +x pre_load.sh
+./pre_load.sh
+```
+
+Затем установить redis и запустить его (в случае если вы хотите пользоваться периодическими задачами и рассылкой электронных писем)
+
+```
+sudo apt update
+sudo apt install redis
+sudo systemctl start redis
+```
+Затем запустить Celery используя разные терминалы
+```
+celery -A news_and_weather worker -l info
+celery -A news_and_weather beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler
+```
+После этого в админке можно создавать периодические задачи по отправке почты и сбору данных о погоде
+
+По адресу http://127.0.0.1:8000/swagger/ будет доступна документация для api проекта
+
+По адресу http://127.0.0.1:8000/admin/ будет доступна админ зона
+
+
 
 ## Альтернативная установка возможна при установленном на локальном компьютере Docker compose
 
+Клонируйте репозиторий и создайте файл .env как описано выше.
+
+Убедитесь что у вас не запущен redis на порте 6379 и какой-либо проект на порте 8000
+
 Запустите проект из корня с помощью команды:
 ```
-docker compose up
+docker compose up -d # режим демона
 ```
-Соберите статику Django с помощью команды:
-```
-docker compose exec backend python manage.py collectstatic
-```
-Скопируйте статику командой:
-```
-docker compose exec backend cp -r /app/collected_static/. /static/static/
-```
-По адресу http://127.0.0.1:8080/ сайт будет доступен.
+По адресу http://127.0.0.1:8000/swagger/ будет доступна документация для api проекта
 
+По адресу http://127.0.0.1:8000/admin/ будет доступна админ зона
+
+В проекте доступна функция сохранения в Excel файл данных о погоде
+
+При GET запросе вида
+
+http://127.0.0.1:8000/api/download_weather_data/?date=2023-09-22&place_id=1
+
+пользователю вернется эксель файл с погодой за 2023-09-22 в примечательном месте с id 1
 
 ### Автор проекта А.В. Климов
+https://klimov.space
+
+2023
 
