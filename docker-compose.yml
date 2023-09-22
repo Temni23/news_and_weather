@@ -18,9 +18,10 @@ services:
       - redis
   redis:
     image: redis:latest
+    expose:
+      - 6379
     ports:
       - "6379:6379"
-    # Другие настройки Redis, если требуется
 
   nginx:
     image: nginx:1.19.3

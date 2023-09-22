@@ -201,7 +201,8 @@ CONSTANCE_CONFIG = {
     'MESSAGE': ('Добрый день! Вот список новостей за сегодня:',
                 'Настройка для письма'),
 }
-
+CONSTANCE_BACKEND = 'constance.backends.redisd.RedisBackend'
+CONSTANCE_REDIS_CONNECTION = 'redis://redis:6379/3'
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost',
     'http://127.0.0.1',
