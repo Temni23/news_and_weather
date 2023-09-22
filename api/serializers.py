@@ -5,7 +5,7 @@ from django.core import validators
 from django.core.files.base import ContentFile
 from rest_framework import serializers
 
-from news.models import Publication
+from news.models import Publication, Comment
 from news_and_weather.settings import (MAX_LENGTH_USERNAME, MAX_LENGTH_EMAIL,
                                        MAX_LENGTH_FIRST_NAME,
                                        MAX_LENGTH_LAST_NAME)
@@ -91,8 +91,6 @@ class PublicationSerializer(serializers.ModelSerializer):
     """Сериалайзер для модели с публикациями."""
     main_image = Base64ImageField(required=True, allow_null=False)
 
-    # TODO поле не отображается обязательным в сваггере
-
     class Meta:
         model = Publication
         fields = ('id', 'title', 'text', 'main_image', 'preview_image', 'text',
@@ -121,3 +119,13 @@ class WeatherReportSerializer(serializers.ModelSerializer):
         fields = ('id', 'place', 'temperature', 'humidity', 'pressure',
                   'wind_direction', 'wind_speed', 'report_time')
         model = WeatherReport
+
+
+class CommentSerializer(serializers.ModelSerializer):
+    """Сериалайзер для комментариев."""
+    author = UserSerializer(read_only=True)
+
+    class Meta:
+        model = Comment
+        read_only_fields = ('pub_date',)
+        exclude = ('publication',)

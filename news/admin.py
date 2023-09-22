@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django_summernote.admin import SummernoteModelAdmin
-from .models import Publication
+from .models import Publication, Comment
 
 
 class PublicationAdmin(SummernoteModelAdmin):
@@ -11,5 +11,9 @@ class PublicationAdmin(SummernoteModelAdmin):
     summernote_fields = ('text',)
 
 
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('id', 'author', 'text',)
+
+
 admin.site.register(Publication, PublicationAdmin)
-# TODO добавить поле с превью картинки в админку
+admin.site.register(Comment, CommentAdmin)
