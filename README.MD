@@ -12,7 +12,7 @@
 Посредством git-actions реализовано тестирование, пересборка докер образов на dockerhub.
 
 ## Технологии
-Python 3.9, Django, Django REST framework, Docker, Celery, Constance, Pandas, Nginx
+Python 3.9, Django, Django REST framework, Postgres, Docker, Celery, Constance, Pandas, Nginx
 
 ## Запуск проекта на локальном компьютере
 # Linux:
@@ -91,6 +91,8 @@ docker compose up -d # режим демона
 http://127.0.0.1:8000/api/download_weather_data/?date=2023-09-22&place_id=1
 
 пользователю вернется эксель файл с погодой за 2023-09-22 в примечательном месте с id 1
+
+По умолчанию в проекте используется база данных sqlite, но проект настроен и на работу с postgresql. Для использования postgress нужно изменить переменную DATABASE в файле .env на postgres. При разворачивании проекта через docker compose вам нужно будет только ввести в переменные настройки баы данных свои значения. При использовании локально нужно будет дополнительно настроить Postgres локально. 
 
 ### Автор проекта А.В. Климов
 https://klimov.space
