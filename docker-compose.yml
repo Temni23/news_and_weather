@@ -1,0 +1,48 @@
+version: '3.9'
+services:
+  backend:
+    image: pytem/news_and_weather:latest
+    restart: on-failure
+    command: >
+      sh -c "python manage.py collectstatic --noinput && 
+            python manage.py makemigrations &&
+            python manage.py migrate && 
+            gunicorn news_and_weather.wsgi:application --bind 0:8000 &&
+            celery -A news_and_weather worker -l info &&
+            celery -A news_and_weather beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler"
+    volumes:
+      - static:/app/static/
+      - media:/app/media/
+    env_file:
+      - .env
+    depends_on:
+      - redis
+      - db
+  redis:
+    image: redis:latest
+    expose:
+      - 6379
+    ports:
+      - "6379:6379"
+  db:
+    image: postgres:13.0-alpine
+    volumes:
+      - postgres:/var/lib/postgresql/data/
+    env_file:
+      - .env
+
+  nginx:
+    image: nginx:1.19.3
+    ports:
+      - "8000:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - static:/static/
+      - media:/media
+    depends_on:
+      - backend
+
+volumes:
+  static:
+  media:
+  postgres:
