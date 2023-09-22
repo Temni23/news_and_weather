@@ -199,11 +199,7 @@ CONSTANCE_CONFIG = {
                 'Настройка для письма'),
 }
 CONSTANCE_BACKEND = 'constance.backends.redisd.RedisBackend'
-CONSTANCE_REDIS_CONNECTION = {
-    'host': 'localhost',
-    'port': 6379,
-    'db': 2,
-}
+
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost',
     'http://127.0.0.1',
