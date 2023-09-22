@@ -9,6 +9,7 @@ from news.models import Publication
 from news_and_weather.settings import (MAX_LENGTH_USERNAME, MAX_LENGTH_EMAIL,
                                        MAX_LENGTH_FIRST_NAME,
                                        MAX_LENGTH_LAST_NAME)
+from places.models import Place, WeatherReport
 from users.models import User
 
 
@@ -87,6 +88,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
 
 class PublicationSerializer(serializers.ModelSerializer):
+    """Сериалайзер для модели с публикациями."""
     main_image = Base64ImageField(required=True, allow_null=False)
 
     # TODO поле не отображается обязательным в сваггере
@@ -102,3 +104,20 @@ class PublicationSerializer(serializers.ModelSerializer):
         validated_data['author'] = user
         publication = Publication.objects.create(**validated_data)
         return publication
+
+
+class PlaceSerializer(serializers.ModelSerializer):
+    """Сериалайзер для модели с примечательными местами."""
+
+    class Meta:
+        fields = ['id', 'name', 'lat', 'lon', 'rating']
+        model = Place
+
+
+class WeatherReportSerializer(serializers.ModelSerializer):
+    place = PlaceSerializer(read_only=True)
+
+    class Meta:
+        fields = ('id', 'place', 'temperature', 'humidity', 'pressure',
+                  'wind_direction', 'wind_speed', 'report_time')
+        model = WeatherReport

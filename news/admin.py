@@ -1,14 +1,15 @@
 from django.contrib import admin
-from django.utils.html import format_html
-
+from django_summernote.admin import SummernoteModelAdmin
 from .models import Publication
 
 
-@admin.register(Publication)
-class NewsAdmin(admin.ModelAdmin):
+class PublicationAdmin(SummernoteModelAdmin):
     list_display = ('id', 'title', 'date_published', 'author',)
     list_filter = ('author', 'date_published')
     search_fields = ('author', 'date_published')
     empty_value_display = '-пусто-'
+    summernote_fields = ('text',)
 
+
+admin.site.register(Publication, PublicationAdmin)
 # TODO добавить поле с превью картинки в админку

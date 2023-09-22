@@ -26,8 +26,10 @@ INSTALLED_APPS = [
     'rest_framework',
     'djoser',
     'drf_yasg',
+    'django_summernote',
     'rest_framework.authtoken',
-    'news.apps.NewsConfig'
+    'news.apps.NewsConfig',
+    'places.apps.PlacesConfig',
 ]
 
 MIDDLEWARE = [
@@ -45,7 +47,8 @@ ROOT_URLCONF = 'news_and_weather.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
+        'DIRS': ['venv/lib/python3.9/'
+                 'site-packages/django_admin_geomap/templates']
         ,
         'APP_DIRS': True,
         'OPTIONS': {
@@ -112,20 +115,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #############################################################################
-#                            Model constants
-#############################################################################
-
-STR_SYMBOLS_AMOUNT = 30
-
-# User model
-
-
-MAX_LENGTH_EMAIL = 254
-MAX_LENGTH_USERNAME = 150
-MAX_LENGTH_FIRST_NAME = 150
-MAX_LENGTH_LAST_NAME = 150
-
-#############################################################################
 #                            DRF settings
 #############################################################################
 
@@ -156,3 +145,26 @@ DJOSER = {
         'current_user': 'api.serializers.UserSerializer',
         'user': 'api.serializers.UserSerializer'}
 }
+#############################################################################
+#                            Summernote settings
+#############################################################################
+
+SUMMERNOTE_CONFIG = {
+    'iframe': True,
+    'summernote': {
+        'width': '100%',
+        'height': '400px',
+    },
+}
+
+#############################################################################
+#                            Models constants
+#############################################################################
+
+STR_SYMBOLS_AMOUNT = 30
+MAX_LENGTH_EMAIL = 254
+MAX_LENGTH_USERNAME = 150
+MAX_LENGTH_FIRST_NAME = 150
+MAX_LENGTH_LAST_NAME = 150
+MIN_RATING = 0
+MAX_RATING = 25
