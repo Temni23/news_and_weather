@@ -122,18 +122,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-# SMTP-сервер и порт для отправки почты
-EMAIL_HOST = 'smtp.yandex.ru'  # Замените на адрес вашего SMTP-сервера
-EMAIL_PORT = 587  # Порт для отправки почты (обычно 587 для TLS)
 
-# Имя пользователя и пароль для SMTP-сервера (если требуется аутентификация)
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 587
+
 EMAIL_HOST_USER = 'django-test23@yandex.ru'
-EMAIL_HOST_PASSWORD = 'hdgsezhljxqbwwfz'  # Замените на ваш пароль
-
-# Указание TLS-шифрования (если требуется)
+EMAIL_HOST_PASSWORD = 'hdgsezhljxqbwwfz'
+# TODO в переменные
 EMAIL_USE_TLS = True
 
-# Указание адреса отправителя по умолчанию
 DEFAULT_FROM_EMAIL = 'django-test23@yandex.ru'
 
 #############################################################################
@@ -202,7 +199,7 @@ CONSTANCE_CONFIG = {
                 'Настройка для письма'),
 }
 CONSTANCE_BACKEND = 'constance.backends.redisd.RedisBackend'
-CONSTANCE_REDIS_CONNECTION = 'redis://redis:6379/3'
+CONSTANCE_REDIS_CONNECTION = 'redis://redis:6379/0'
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost',
     'http://127.0.0.1',
